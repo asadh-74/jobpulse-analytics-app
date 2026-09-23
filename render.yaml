@@ -1,0 +1,68 @@
+databases:
+  - name: jobpulse-db
+    plan: free
+    databaseName: jobpulse
+    user: jobpulse
+
+services:
+  - type: web
+    name: jobpulse-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: APP_NAME
+        value: JobPulse
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase: { name: jobpulse-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: jobpulse-db, property: port }
+      - key: DB_DATABASE
+        fromDatabase: { name: jobpulse-db, property: database }
+      - key: DB_USERNAME
+        fromDatabase: { name: jobpulse-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: jobpulse-db, property: password }
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: REMOTIVE_API_URL
+        value: https://remotive.com/api/remote-jobs
+      - key: ADMIN_REFRESH_TOKEN
+        sync: false
+
+  - type: cron
+    name: jobpulse-fetch
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: php artisan jobs:fetch
+    schedule: "0 */6 * * *"
+    plan: free
+    envVars:
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase: { name: jobpulse-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: jobpulse-db, property: port }
+      - key: DB_DATABASE
+        fromDatabase: { name: jobpulse-db, property: database }
+      - key: DB_USERNAME
+        fromDatabase: { name: jobpulse-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: jobpulse-db, property: password }
+      - key: APP_KEY
+        sync: false
+      - key: CACHE_STORE
+        value: database

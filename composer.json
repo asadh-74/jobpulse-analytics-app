@@ -1,0 +1,28 @@
+{
+    "name": "asad/jobpulse-analytics",
+    "type": "project",
+    "description": "JobPulse - a live remote job-market analytics dashboard built on Laravel, fed by the public Remotive API. No seeders, no fixtures: every number on the dashboard comes from a real, currently-open job posting.",
+    "keywords": ["laravel", "analytics", "dashboard", "remote-jobs", "portfolio"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^13.0",
+        "guzzlehttp/guzzle": "^8.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}

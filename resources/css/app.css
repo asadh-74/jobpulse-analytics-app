@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-ink text-paper font-body antialiased;
+    }
+    h1, h2, h3 {
+        @apply font-display;
+    }
+}
+
+/* Ticker strip — the hero moment. A single continuous marquee of the
+   latest real postings, built with plain CSS animation (no JS timers). */
+.ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll 45s linear infinite;
+}
+
+.ticker-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation: none;
+        overflow-x: auto;
+    }
+}
+
+.stat-block {
+    @apply border border-ink-line px-5 py-4 flex flex-col gap-1;
+}
+
+.panel {
+    @apply border border-ink-line bg-ink-panel p-5;
+}
